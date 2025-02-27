@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: gha-runner-scale-set-controller
+spec:
+  destination:
+    namespace: arc-systems
+    server: https://kubernetes.default.svc
+  source:
+    path: ./charts/gha-runner-scale-set-controller
+    repoURL: https://github.com/actions/actions-runner-controller.git
+    targetRevision: master
+    helm:
+      parameters:
+        - name: image.tag
+          value: 0.10.1
+        - name: flags.logFormat
+          value: json
+  sources: []
+  project: default
+  syncPolicy:
+    automated: null
+    syncOptions:
+      - CreateNamespace=true
