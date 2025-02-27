@@ -2,6 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: gha-runner-scale-set-controller
+  namespace: argocd
 spec:
   destination:
     namespace: arc-systems
@@ -16,9 +17,14 @@ spec:
           value: 0.10.1
         - name: flags.logFormat
           value: json
+        - name: metrics.controllerManagerAddr
+          value: ":8080"
+        - name: metrics.listenerAddr
+          value: ":8080"
+        - name: metrics.listenerEndpoint
+          value: "/metrics"
   sources: []
   project: default
   syncPolicy:
-    automated: null
     syncOptions:
       - CreateNamespace=true
